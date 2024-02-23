@@ -4,12 +4,14 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env()
-environ.Env.read_env()
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 
-SECRET_KEY = os.environ["SECRET_KEY"]
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-DEBUG = True if os.environ["MODE"] == 'dev' else False
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('MODE') == 'dev'
 
 ALLOWED_HOSTS = ['*']
 
